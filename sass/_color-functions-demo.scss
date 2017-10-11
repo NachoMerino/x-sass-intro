@@ -1,0 +1,37 @@
+$demo-color: #de5665;
+
+.color-functions-demo {
+  background-color: $demo-color;
+  color: invert($demo-color);
+
+  &:empty:before {
+    padding: 0.5rem;
+    display: inline-block;
+    content: '#{$demo-color}';
+  }
+}
+
+@mixin color-demo($color) {
+  .transformed {
+    background-color: $color;
+    color: invert($color);
+    &:before {
+      content: '#{$color}';
+    }
+  }
+}
+
+.demo-block {
+  .darken {
+    @include color-demo(darken($demo-color, 20));
+  }
+  .invert {
+    @include color-demo(invert($demo-color));
+  }
+  .saturate {
+    @include color-demo(saturate($demo-color, 10));
+  }
+  .adjust-hue {
+    @include color-demo(adjust-hue($demo-color, 90));
+  }
+}

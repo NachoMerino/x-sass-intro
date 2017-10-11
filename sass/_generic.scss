@@ -1,0 +1,24 @@
+
+$body-bg-color: #eee !default;
+$body-color: #333 !default;
+$border-radius-small: 3px !default;
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: $body-bg-color;
+}
+
+code,
+pre {
+  border-radius: $border-radius-small;
+  border: 1px solid darken($body-bg-color, 30);
+  background-color: darken($body-bg-color, 10);
+}
+
+pre {
+  overflow: auto;
+}

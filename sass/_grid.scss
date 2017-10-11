@@ -1,0 +1,12 @@
+.row {
+  display: flex;
+  > * {
+    border: 1px solid;
+  }
+}
+
+@for $index from 1 through 12 {
+  .col-#{$index} {
+    width: (100% / 12) * $index;
+  }
+}
