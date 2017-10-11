@@ -1,4 +1,9 @@
 # SASS introduction
+
+**This README is a quick and dirty html2markdown conversion, look at the `index.html` or https://zeropaper.github.io/x-sass-intro**
+
+## Steps
+
 *   Create a folder (`mkdir sass-intro`) and go in it (`cd sass-intro`).
 *   Initialize a package.json (`npm init` and then answer the questions).
 *   Create a `index.html` file (`touch index.html)`.
