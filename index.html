@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>A SASS experiment</title>
+  <link rel="stylesheet" type="text/css" href="dist/styles.css">
+</head>
+<body>
+<ul>
+  <li>Create a folder (<code>mkdir sass-intro</code>) and go in it (<code>cd sass-intro</code>).</li>
+  <li>Initialize a package.json (<code>npm init</code> and then answer the questions).</li>
+  <li>Create a <code>index.html</code> file (<code>touch index.html)</code>.</li>
+  <li>Create a folder for your sass files (<code>mkdir sass</code>).</li>
+  <li>Create a <code>styles.scss</code> file inside the sass folder.</li>
+  <li>Add the <code>link</code> tag to load the compiled CSS (point to <code>dist/styles.css</code>).</li>
+  <li>
+    We need some tools to compille the SCSS files into CSS files.<br/>
+    We saw that gulp-sass is not playing nice if there's a syntax error in your SCSS file.<br/>
+    So we will use other tools. 😊
+    <ul>
+      <li><a href="https://npmjs.org/package/nodemon">nodemon</a> which will used to run tasks when changes are detected, install it globally (<code>npm i -g nodemon</code>)</li>
+      <li><a href="https://npmjs.org/package/node-sass">node-sass</a> which will compile the SCSS files into CSS (install it locally, as a development <code>npm i -D node-sass</code>)</li>
+    </ul>
+  </li>
+  <li>Make a dist directory (<code>mkdir dist</code>)</li>
+  <li>
+    Let's try node-sass (<code>./node_modules/.bin/node-sass</code>).<br/>
+    To compile our <code>sass/styles.scss</code> into <code>dist/styles.css</code> and watch for changes: <code>./node_modules/.bin/node-sass --watch --output dist --source-map true --source-map-contents sass --output-style compressed sass/styles.scss</code>.
+  </li>
+  <li>Add something to the <code>sass/styles.scss</code> (like, background-color of body).</li>
+  <li>
+    Instead of typing the long command line to compile the CSS, we will add a script in our <code>package.json</code>.<br/>
+    Open the <code>package.json</code> and add "start" script like this:
+    <pre>
+"scripts": {
+  "start": "node-sass --watch --output dist --source-map true --source-map-contents sass --output-style compressed sass/styles.scss",
+  "test": "echo \"Error: no test specified\" &amp;&amp; exit 1"
+},</pre>
+    (you can actually remove the <code>./node_modules/.bin/</code> because npm knows)<br/>
+    Now, in the terminal, stop the node-sass tool (<code>CTRL + C</code>) and then run <code>npm run start</code>.<br/>
+    Make a change to your SCSS file and save to check.
+  </li>
+  <li>
+    If you want to run <a href="https://npmjs.org/package/live-server">live-server</a> (and you probably want), open a new tab in your terminal (<code>CTRL + SHIFT + T</code>).
+  </li>
+  <li>
+    Let's style the <code>&lt;code&gt;</code> and <code>&lt;pre&gt;</code>.<br/>
+    It's a good idea to declare a few variables and then alterate them with the tools (functions) that SASS provides:
+    <pre>
+$body-bg-color: #eee;
+$body-color: #333;
+$border-radius-small: 3px;
+
+body {
+  background-color: $body-bg-color;
+}
+
+code,
+pre {
+  border-radius: $border-radius-small;
+  border: 1px solid darken($body-bg-color, 30);
+  background-color: darken($body-bg-color, 10);
+}</pre>
+  </li>
+  <li>
+    If you want the right syntax highlighting (SASS) in Sublime Text 3:
+    <ul>
+      <li>Hit <code>CTRL + SHIFT + P</code> and then search for "Package Control: Install Package".</li>
+      <li>Then search for "SASS" and... install...</li>
+      <li>You might need to look at the bottom of the editor to change the syntax</li>
+    </ul>
+  </li>
+  <li>
+    Let's take it to the next level with variables.<br/>
+    In your <code>sass</code> directory, create a file called <code>_variables.scss</code>.<br/>
+    Import the <code>_variables.scss</code> in your <code>styles.scss</code> so <code>@import "_variables";</code> (at the top of the file).<br/>
+    Add <code>!default</code> after the variable values of your <code>styles.scss</code> like that:
+    <pre>
+$body-bg-color: #eee !default;
+$body-color: #333 !default;
+$border-radius-small: 3px !default;</pre>
+    In your <code>_variables.scss</code> override the default variable values by declaring the same variables (but without the <code>!default</code>).
+    <pre>$body-bg-color: lightblue;</pre>
+    What happens is that the variables (defined in <code>_variables.scss</code>) will be used instead of the ones declared in your <code>styles.scss</code> because the variables in <code>styles.scss</code> have the <code>!default</code> (and therefore can be considered as "fallback" or "default" values).<br/>
+    The underscore at the beginning of the <code>_variables.scss</code> is important because it instructs the SASS compiler <strong>not</strong> to create a CSS file for it.
+  </li>
+  <li>
+    Usually, we want to have 1 file which is not prefixed with underscore (and will therefore result in a CSS file after compilation).<br/>
+    So let's move the content of our <code>styles.scss</code> file (except the <code>@import</code> statement) to a new file called <code>_generic.scss</code> (which you have to create, obviously) and then import it in your <code>styles.scss</code>.
+  </li>
+  <li>
+    Say hello to your best friend (the developer tools) and inspect a <code>&lt;pre&gt;</code> tag, look at the style and you will see in which file the declaration has been made (in this case, the <code>_generic.scss</code> file).<br/>
+    It might not look like much, but if you have dozens of SCSS files, you surely understand how useful it can be.
+  </li>
+  <li>
+    With SASS you can manipulate colors with functions.<br/>
+    To demonstrate that create a new <code>_color-functions-demo.scss</code> file and declare a variable <code>$demo-color: #de5665;</code>.
+    Add a class declaration <code>.color-functions-demo</code> which has the <code>$demo-color</code> for background color and its inverted value for color <code>color: invert($demo-color);</code>.<br/>
+    <div class="color-functions-demo"></div>
+    After the color declaration, add the following code:
+    <pre>
+&amp;:empty:before { // the :empty selector will select... empty elements (caution! a white space will not be considered empty)
+  padding: 0.5rem;
+  display: inline-block;
+  content: '#{$demo-color}';// this #{$variable-name} is used because otherwise the resulting CSS would be '$demo-color'.
+}</pre>
+    You will also need an empty div with the color-functions-demo class in your HTML (thanks capt'n obvious).
+  </li>
+  <li>
+    SASS comes with an other powerful feature called <code><a href="http://devdocs.io/sass/index#mixin">@mixin</a></code>, which we will try to illustrate by creating one for color function examples.<br/>
+    In your <code>_color-functions-demo.scss</code> add
+    <pre>.demo-block:empty:before {
+  padding: 0.5rem;
+  display: inline-block;
+}
+
+@mixin color-demo($color) {
+  .transformed {
+    background-color: $color;
+    color: invert($color);
+    &amp;:empty:before {
+      content: '#{$color}';
+    }
+  }
+}
+
+.demo-block {
+  .darken {
+    @include color-demo(darken($demo-color, 20));
+  }
+  .invert {
+    @include color-demo(invert($demo-color));
+  }
+  .saturate {
+    @include color-demo(saturate($demo-color, 10));
+  }
+  .adjust-hue {
+    @include color-demo(adjust-hue($demo-color, 90));
+  }
+}</pre>
+    and then use your mixin
+    <table class="demo-block">
+      <tr class="darken">
+        <td>darken</td>
+        <td class="transformed"></td>
+      </tr>
+      <tr class="invert">
+        <td>invert</td>
+        <td class="transformed"></td>
+      </tr>
+      <tr class="saturate">
+        <td>saturate</td>
+        <td class="transformed"></td>
+      </tr>
+      <tr class="adjust-hue">
+        <td>adjust-hue</td>
+        <td class="transformed"></td>
+      </tr>
+    </table>
+  </li>
+  <li>
+    To demonstrate loops we will create a <code>_grid.scss</code> (and import it in the <code>styles.scss</code>) and create a "bootstrapish" grid system using the <code>@for</code> loop.
+    <div class="row">
+      <div class="col-1">.col-1</div>
+      <div class="col-2">.col-2</div>
+      <div class="col-3">.col-3</div>
+      <div class="col-6">.col-6</div>
+    </div>
+  </li>
+  <li>
+    The ampersand sign allows you to nest selectors without spaces inbetween.
+    <pre>
+.my-class-name {
+  .child-class-name {
+    // ...
+  }
+}</pre>
+    will compile to
+    <pre>.my-class-name .child-class-name {}</pre>
+    but if you need to avoid the space between both class names like for links styling
+    <pre>
+.my-class {
+  // some properties
+  &amp;-variant {
+    // ...
+  }
+}
+// or
+.other-class {
+  // some properties
+  &amp;:before {}
+}
+    </pre>
+    will compile to
+    <pre>
+.my-class {}
+.my-class-variant {}
+/* or */
+.other-class {}
+.other-class:before {}
+    </pre>
+    It's extremely useful for <a href="http://getbem.com/naming/">BEM</a> naming convention (used by <a title="look at the class names" href="https://material-components-web.appspot.com/card.html">MDC</a>.
+  <pre>
+// kind of...
+.mdc-card {
+  &amp;__media {}
+  &amp;__primary {
+    &amp;--theme-dark {}
+  }
+}</pre>
+  </li>
+</ul>
+</body>
+</html>
