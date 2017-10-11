@@ -1,0 +1,20 @@
+{
+	"version": 3,
+	"file": "styles.css",
+	"sources": [
+		"../sass/styles.scss",
+		"../sass/_variables.scss",
+		"../sass/_generic.scss",
+		"../sass/_color-functions-demo.scss",
+		"../sass/_grid.scss"
+	],
+	"sourcesContent": [
+		"@import \"_variables\";\n/**\n * Generic styles\n */\n@import \"_generic\";\n/**\n * Color functions demonstration\n */\n@import \"_color-functions-demo\";\n/**\n * Grid\n */\n@import \"_grid\";\n",
+		"$body-bg-color: #ddd;",
+		"\n$body-bg-color: #eee !default;\n$body-color: #333 !default;\n$border-radius-small: 3px !default;\n*,\n*:before,\n*:after {\n  box-sizing: border-box;\n}\n\nbody {\n  background-color: $body-bg-color;\n}\n\ncode,\npre {\n  border-radius: $border-radius-small;\n  border: 1px solid darken($body-bg-color, 30);\n  background-color: darken($body-bg-color, 10);\n}\n\npre {\n  overflow: auto;\n}",
+		"$demo-color: #de5665;\n\n.color-functions-demo {\n  background-color: $demo-color;\n  color: invert($demo-color);\n\n  &:empty:before {\n    padding: 0.5rem;\n    display: inline-block;\n    content: '#{$demo-color}';\n  }\n}\n\n@mixin color-demo($color) {\n  .transformed {\n    background-color: $color;\n    color: invert($color);\n    &:before {\n      content: '#{$color}';\n    }\n  }\n}\n\n.demo-block {\n  .darken {\n    @include color-demo(darken($demo-color, 20));\n  }\n  .invert {\n    @include color-demo(invert($demo-color));\n  }\n  .saturate {\n    @include color-demo(saturate($demo-color, 10));\n  }\n  .adjust-hue {\n    @include color-demo(adjust-hue($demo-color, 90));\n  }\n}\n",
+		".row {\n  display: flex;\n  > * {\n    border: 1px solid;\n  }\n}\n\n@for $index from 1 through 12 {\n  .col-#{$index} {\n    width: (100% / 12) * $index;\n  }\n}"
+	],
+	"names": [],
+	"mappings": "AACA;;GAEG;AECH,AAAA,CAAC;AACD,AAAA,CAAC,AAAA,OAAO;AACR,AAAA,CAAC,AAAA,MAAM,CAAC;EACN,UAAU,EAAE,UAAU,GACvB;;AAED,AAAA,IAAI,CAAC;EACH,gBAAgB,EDXF,IAAI,GCYnB;;AAED,AAAA,IAAI;AACJ,AAAA,GAAG,CAAC;EACF,aAAa,EAbO,GAAG;EAcvB,MAAM,EAAE,GAAG,CAAC,KAAK,CAAC,OAA0B;EAC5C,gBAAgB,EAAE,OAA0B,GAC7C;;AAED,AAAA,GAAG,CAAC;EACF,QAAQ,EAAE,IAAI,GACf;;AFlBD;;GAEG;AGLH,AAAA,qBAAqB,CAAC;EACpB,gBAAgB,EAHL,OAAO;EAIlB,KAAK,EAAE,OAAmB,GAO3B;EATD,AAIE,qBAJmB,AAInB,MAAO,AAAA,OAAO,CAAC;IACb,OAAO,EAAE,MAAM;IACf,OAAO,EAAE,YAAY;IACrB,OAAO,EAAE,SAAgB,GAC1B;;AAaH,AATE,WASS,CACT,OAAO,CAVP,YAAY,CAAC;EACX,gBAAgB,EAUI,OAAuB;EAT3C,KAAK,EAAE,OAAc,GAItB;EAGH,AATE,WASS,CACT,OAAO,CAVP,YAAY,AAGb,OAAW,CAAC;IACP,OAAO,EAAE,SAAW,GACrB;;AAIL,AATE,WASS,CAIT,OAAO,CAbP,YAAY,CAAC;EACX,gBAAgB,EAaI,OAAmB;EAZvC,KAAK,EAAE,OAAc,GAItB;EAGH,AATE,WASS,CAIT,OAAO,CAbP,YAAY,AAGb,OAAW,CAAC;IACP,OAAO,EAAE,SAAW,GACrB;;AAIL,AATE,WASS,CAOT,SAAS,CAhBT,YAAY,CAAC;EACX,gBAAgB,EAgBI,OAAyB;EAf7C,KAAK,EAAE,OAAc,GAItB;EAGH,AATE,WASS,CAOT,SAAS,CAhBT,YAAY,AAGb,OAAW,CAAC;IACP,OAAO,EAAE,SAAW,GACrB;;AAIL,AATE,WASS,CAUT,WAAW,CAnBX,YAAY,CAAC;EACX,gBAAgB,EAmBI,OAA2B;EAlB/C,KAAK,EAAE,OAAc,GAItB;EAGH,AATE,WASS,CAUT,WAAW,CAnBX,YAAY,AAGb,OAAW,CAAC;IACP,OAAO,EAAE,SAAW,GACrB;;AHVL;;GAEG;AIXH,AAAA,IAAI,CAAC;EACH,OAAO,EAAE,IAAI,GAId;EALD,AAEI,IAFA,GAEA,CAAC,CAAC;IACF,MAAM,EAAE,SAAS,GAClB;;AAID,AAAA,MAAM,CAAS;EACb,KAAK,EAAE,QAAoB,GAC5B;;AAFD,AAAA,MAAM,CAAS;EACb,KAAK,EAAE,SAAoB,GAC5B;;AAFD,AAAA,MAAM,CAAS;EACb,KAAK,EAAE,GAAoB,GAC5B;;AAFD,AAAA,MAAM,CAAS;EACb,KAAK,EAAE,SAAoB,GAC5B;;AAFD,AAAA,MAAM,CAAS;EACb,KAAK,EAAE,SAAoB,GAC5B;;AAFD,AAAA,MAAM,CAAS;EACb,KAAK,EAAE,GAAoB,GAC5B;;AAFD,AAAA,MAAM,CAAS;EACb,KAAK,EAAE,SAAoB,GAC5B;;AAFD,AAAA,MAAM,CAAS;EACb,KAAK,EAAE,SAAoB,GAC5B;;AAFD,AAAA,MAAM,CAAS;EACb,KAAK,EAAE,GAAoB,GAC5B;;AAFD,AAAA,OAAO,CAAQ;EACb,KAAK,EAAE,SAAoB,GAC5B;;AAFD,AAAA,OAAO,CAAQ;EACb,KAAK,EAAE,SAAoB,GAC5B;;AAFD,AAAA,OAAO,CAAQ;EACb,KAAK,EAAE,IAAoB,GAC5B"
+}
